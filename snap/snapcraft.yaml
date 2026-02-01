@@ -8,6 +8,23 @@ description: |
 grade: stable
 confinement: strict
 
+icon: snap/gui/unvanquished.png
+website: https://unvanquished.net/
+contact: https://github.com/alponaut/unvanquished-snap-unofficial/issues
+issues: https://github.com/alponaut/unvanquished-snap-unofficial/issues
+source-code: https://github.com/alponaut/unvanquished-snap-unofficial/
+
+platforms:
+  amd64:
+    build-on: [amd64]
+    build-for: [amd64]
+  arm64:
+    build-on: [arm64]
+    build-for: [arm64]
+  armhf:
+    build-on: [armhf]
+    build-for: [armhf]
+
 apps:
   unvanquished:
     extensions: [gnome]
