@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+UPDATER=$SNAP_USER_COMMON/UnvanquishedUpdater
+mkdir -p $SNAP_USER_COMMON/.local/share
+
+if [ ! -f "$UPDATER" ]; then
+    wget https://unvanquished.net/download/linux -P $SNAP_USER_COMMON
+    unzip $SNAP_USER_COMMON/linux -d $SNAP_USER_COMMON/
+    rm $SNAP_USER_COMMON/linux
+fi
+
+export HOME=$SNAP_USER_COMMON
+export XDG_DATA_HOME=$SNAP_USER_COMMON/.local/share
+export QT_QPA_PLATFORM=xcb
+
+exec $SNAP_USER_COMMON/UnvanquishedUpdater
+
