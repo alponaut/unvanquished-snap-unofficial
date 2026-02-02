@@ -53,6 +53,7 @@ parts:
       - libncursesw6
       - wget
       - unzip
+      - zenity
   
   gpu-2404:
     after: [unvanquished]
