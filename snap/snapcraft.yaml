@@ -1,7 +1,6 @@
 name: unvanquished-alpo
-title: Unvanquished
 base: core24
-version: 'latest'
+version: '0.55.5'
 summary: Real-time strategy game where aliens and humans fight for their survival
 description: |
   Unvanquished is a free, open-source first-person strategy game shooter, pitting technologically advanced human soldiers against hordes of highly adaptable aliens. Players can choose from either team, providing for an entirely different experience on both sides, as humans focus on long-range firepower while aliens rely instead on quick movement and stealth. The goal of each match is to destroy the enemy base, preventing members of the opposing team from spawning. Upgrades for both teams are earned by a combination of individual performance and team map control, unlocking access to more powerful weapons and equipment for the humans, and larger, more ferocious forms for the aliens.
@@ -19,15 +18,17 @@ platforms:
   amd64:
     build-on: [amd64]
     build-for: [amd64]
+  arm64:
+    build-on: [arm64]
+    build-for: [arm64]
+  armhf:
+    build-on: [armhf]
+    build-for: [armhf]
 
 apps:
   unvanquished:
     extensions: [gnome]
-    command: unvanquished
-    environment:
-      HOME: $SNAP_USER_COMMON
-      XDG_DATA_HOME: $SNAP_USER_COMMON/.local/share
-      QT_QPA_PLATFORM: xcb
+    command: unvanquished/daemon
     plugs:
       - network
       - network-bind
@@ -42,18 +43,24 @@ plugs:
 
 parts:
   unvanquished:
-    plugin: dump
-    source: ./local
+    plugin: nil
+    source: https://github.com/Unvanquished/Unvanquished/releases/download/v${SNAPCRAFT_PROJECT_VERSION}/unvanquished_${SNAPCRAFT_PROJECT_VERSION}.zip
+    source-type: zip
+    override-build: |
+      mkdir -p $CRAFT_PART_INSTALL/unvanquished
+      mkdir -p $CRAFT_PART_INSTALL/unvanquished/pkg
+      
+      cd $CRAFT_PART_SRC
+      cd unvanquished_${SNAPCRAFT_PROJECT_VERSION}
+      unzip linux-${CRAFT_ARCH_BUILD_FOR}.zip -d $CRAFT_PART_INSTALL/unvanquished
+      cp pkg/* $CRAFT_PART_INSTALL/unvanquished/pkg
+    build-packages:
+      - unzip
     stage-packages:
       - zlib1g
       - liblua5.3-0
       - libopenal1
       - libopusfile0
-      - libncurses6
-      - libncursesw6
-      - wget
-      - unzip
-      - zenity
   
   gpu-2404:
     after: [unvanquished]
